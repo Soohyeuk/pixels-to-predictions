@@ -1,5 +1,7 @@
 # Pixels to Predictions — DL Vision Challenge
 
+P.S. The notebook is focused on running it on a Kaggle notebook, not on local level. 
+
 Fine-tuning `HuggingFaceTB/SmolVLM-500M-Instruct` for the ScienceQA-style visual multiple-choice competition. The model takes an image plus a question and choices, and predicts the correct 0-indexed answer.
 
 ## Approach
