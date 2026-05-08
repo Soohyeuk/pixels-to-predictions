@@ -1,0 +1,12 @@
+transformers==4.57.6
+peft==0.18.1
+bitsandbytes
+accelerate
+datasets
+pillow
+torch
+numpy
+pandas
+matplotlib
+seaborn
+tqdm

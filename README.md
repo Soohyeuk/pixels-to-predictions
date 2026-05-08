@@ -35,13 +35,28 @@ Fine-tuning `HuggingFaceTB/SmolVLM-500M-Instruct` for the ScienceQA-style visual
 | Image size | 384 |
 | Max text length | 1024 |
 
+## Hardware
+
+- Trained on a Kaggle **NVIDIA Tesla T4** (16 GB VRAM), `fp16`, gradient checkpointing on, batch 1 × grad-accum 8.
+- Full training run (2 epochs, all training examples) takes ~3.5 h end-to-end on T4 (see `papermill` duration in notebook metadata).
+- Peak VRAM ≈ 12 GB. CPU RAM ≈ 8 GB. Disk ≈ 2 GB for cached model + LoRA checkpoint.
+- Should also fit on a single Colab T4 / L4. CPU-only inference works but is impractically slow.
+
 ## How to run
 
-1. Run on Kaggle with the competition dataset attached at `/kaggle/input/competitions/pixels-to-predictions`.
-2. Execute cells top-to-bottom. The first run installs `transformers==4.57.6`, `peft==0.18.1`, `bitsandbytes`, `accelerate`, `datasets`, `pillow`.
+1. Run on Kaggle with the competition dataset attached at `/kaggle/input/competitions/pixels-to-predictions`. GPU must be enabled (T4 or better).
+2. Execute cells top-to-bottom. The first run installs the packages listed in `requirements.txt` (also pinned inline in cell 1).
 3. After `model.print_trainable_parameters()` runs, confirm trainable params are under 5M. If over, drop `LORA_R` to 4 in cell 2 and re-run.
 4. The training cell calls `train_lora(train_df, max_train_examples=None)`. For a smoke test, change to `max_train_examples=64`.
 5. Cells 4–5 score validation and write `submission.csv` to `/kaggle/working/`.
+
+## Local / non-Kaggle setup
+
+```bash
+pip install -r requirements.txt
+```
+
+Then point `DATA_DIR` in cell 2 at your local copy of the competition CSVs (`train.csv`, `val.csv`, `test.csv`, plus the `images/` folder) and `OUT_DIR` / `CKPT_DIR` at writable paths.
 
 ## Constraints (per competition rules)
 
