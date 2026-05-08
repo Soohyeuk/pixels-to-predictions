@@ -9,8 +9,8 @@ Fine-tuning `HuggingFaceTB/SmolVLM-500M-Instruct` for the ScienceQA-style visual
 ## Approach
 
 - **Base model:** SmolVLM-500M-Instruct loaded in fp16, frozen.
-- **Adapters:** DoRA (weight-decomposed LoRA) on attention + MLP projections — `q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`, `up_proj`, `down_proj`.
-- **Rank:** `r=4`, `alpha=16`, dropout `0.05`. Stays under the 5M trainable-parameter cap.
+- **Adapters:** LoRA on attention + MLP projections across both the language and vision towers — `q_proj`, `k_proj`, `v_proj`, `o_proj`, `out_proj`, `gate_proj`, `up_proj`, `down_proj`, `fc1`, `fc2` (auto-inferred at runtime).
+- **Rank:** `r=8`, `alpha=16`, dropout `0.05`. Trainable params ≈ 5.67M.
 - **Scoring:** Multiple-choice via per-letter log-likelihood — we score `" A"`, `" B"`, … under the model and pick the lowest NLL. More robust than free-form generation.
 - **Training target:** The label tokens cover only the final answer letter; the prompt, image tokens, and context are masked with `-100`.
 - **Memory:** Gradient checkpointing on, batch size 1, grad accumulation 8 (effective batch ≈ 8).
@@ -25,12 +25,11 @@ Fine-tuning `HuggingFaceTB/SmolVLM-500M-Instruct` for the ScienceQA-style visual
 
 | Param | Value |
 |---|---|
-| LoRA rank | 4 |
+| LoRA rank | 8 |
 | LoRA alpha | 16 |
 | LoRA dropout | 0.05 |
-| DoRA | enabled |
-| Epochs | 3 |
-| Learning rate | 2e-4 |
+| Epochs | 2 |
+| Learning rate | 3e-4 |
 | Warmup ratio | 0.03 |
 | Effective batch | 8 |
 | Image size | 384 |
@@ -40,7 +39,7 @@ Fine-tuning `HuggingFaceTB/SmolVLM-500M-Instruct` for the ScienceQA-style visual
 
 1. Run on Kaggle with the competition dataset attached at `/kaggle/input/competitions/pixels-to-predictions`.
 2. Execute cells top-to-bottom. The first run installs `transformers==4.57.6`, `peft==0.18.1`, `bitsandbytes`, `accelerate`, `datasets`, `pillow`.
-3. After `model.print_trainable_parameters()` runs, confirm trainable params are under 5M. If over, drop `LORA_R` to 2 in cell 2 and re-run.
+3. After `model.print_trainable_parameters()` runs, confirm trainable params are under 5M. If over, drop `LORA_R` to 4 in cell 2 and re-run.
 4. The training cell calls `train_lora(train_df, max_train_examples=None)`. For a smoke test, change to `max_train_examples=64`.
 5. Cells 4–5 score validation and write `submission.csv` to `/kaggle/working/`.
 
