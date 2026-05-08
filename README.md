@@ -2,7 +2,7 @@
 
 [Competition Link](https://www.kaggle.com/competitions/pixels-to-predictions/overview)
 
-P.S. The notebook is focused on running it on a Kaggle notebook, not on local level. 
+P.S. The notebook is focused on running it on a Kaggle notebook, not on local level. To easily replicate, create a notebook in Kaggle, then import this ipynb file.
 
 Fine-tuning `HuggingFaceTB/SmolVLM-500M-Instruct` for the ScienceQA-style visual multiple-choice competition. The model takes an image plus a question and choices, and predicts the correct 0-indexed answer.
 
