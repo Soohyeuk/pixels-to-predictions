@@ -1,6 +1,6 @@
 # Pixels to Predictions — DL Vision Challenge
 
-[Link]([url](https://www.kaggle.com/competitions/pixels-to-predictions/overview)) to the competition
+[Competition Link](https://www.kaggle.com/competitions/pixels-to-predictions/overview)
 
 P.S. The notebook is focused on running it on a Kaggle notebook, not on local level. 
 
