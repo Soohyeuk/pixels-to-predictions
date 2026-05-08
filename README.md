@@ -14,7 +14,7 @@ Fine-tuning `HuggingFaceTB/SmolVLM-500M-Instruct` for the ScienceQA-style visual
 
 ## Files
 
-- `notebook091c886ee3.ipynb` — end-to-end pipeline: load data → attach adapters → train → log-likelihood eval → write `submission.csv` → diagnostic plots.
+- `dl_competition.ipynb` — end-to-end pipeline: load data → attach adapters → train → log-likelihood eval → write `submission.csv` → diagnostic plots.
 - `submission.csv` — produced in `/kaggle/working/` after running the final cells.
 
 ## Key hyperparameters
